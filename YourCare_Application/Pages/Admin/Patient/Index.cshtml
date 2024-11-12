@@ -1,0 +1,109 @@
+﻿@page
+@model YourCare_Application.Pages.Admin.Patient.IndexModel
+@{
+}
+<style>
+    body {
+        font-family: sans-serif;
+    }
+
+    .styled-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 25px 0;
+        font-size: 16px;
+        text-align: left;
+        overflow: hidden;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        border: 1px solid black;
+        /* border-radius: 10px; */
+    }
+
+        .styled-table th, .styled-table td {
+            border: 1px solid black;
+            height: 100%;
+        }
+
+        .styled-table th {
+            color: black;
+        }
+
+        .styled-table td {
+            text-align: center;
+        }
+
+        .styled-table tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .styled-table tbody tr:hover {
+            background-color: #e0e0e0;
+            transition: background-color 0.3s ease;
+        }
+
+        .styled-table caption {
+            font-weight: bold;
+            font-style: italic;
+            margin-bottom: 10px;
+        }
+
+    .main {
+        display: flex;
+    }
+
+    .active {
+        font-size: larger;
+        font-weight: 600
+    }
+</style>
+
+<h1>Danh sách tài khoản người dùng</h1>
+
+<table class="styled-table">
+    <thead>
+        <tr>
+            <th>Information</th>
+            <th>Số lịch khám đã đặt</th>
+            <th>Số lịch khám đã tham gia</th>
+            <th>Số lịch khám vắng mặt</th>
+            <th>Số lịch khám đang chờ</th>
+            <th>Số lịch khám đã hủy</th>
+            <th>Số hồ sơ đã tạo</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var data in Model.DataPatients)
+        {
+            <tr>
+                <td class="d-flex flex-column">
+                    <span>@data.User.Email</span>
+                    @* <span style="font-size: 12px;">Id: </span> *@
+                    <a class="btn btn-outline-primary" href="/">Danh sách lịch khám</a>
+                </td>
+                <td class="text-primary">@data.TotalAppointments</td>
+                <td class="text-primary">@data.CompletedAppointments</td>
+                <td class="text-primary">@data.AbsentAppointments</td>
+                <td class="text-primary">@data.WaitingAppointments</td>
+                <td class="text-primary">@data.CancelledAppointments</td>
+                <td class="text-primary">@data.TotalProfiles</td>
+                <td class="d-flex">
+                    @if (data.User.LockoutEnd != null)
+                    {
+                        <form method="POST" asp-page-handler="UnBanUser">
+                            <input type="hidden" asp-for="@Model.User.Id" value="@data.User.Id" />
+                            <input type="submit" class="btn btn-warning" value="Bỏ cấm" />
+                        </form>
+                    }
+                    else
+                    {
+                        <form method="POST" asp-page-handler="BanUser">
+                            <input type="hidden" asp-for="@Model.User.Id" value="@data.User.Id" />
+                            <input type="submit" class="btn btn-danger" value="Cấm" />
+                        </form>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

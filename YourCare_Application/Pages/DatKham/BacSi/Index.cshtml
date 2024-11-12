@@ -1,0 +1,155 @@
+﻿@page
+@using ReflectionIT.Mvc.Paging
+@using YourCare_Application.Pages.DatKham.BacSi
+
+@model YourCare_Application.Pages.DatKham.BacSi.IndexModel
+@addTagHelper *, ReflectionIT.Mvc.Paging
+@{
+    var pageSizeOptions = new string[] { "2", "5", "10", "20" };
+
+    string pageIndex = !string.IsNullOrEmpty(ViewContext.HttpContext.Request.Query["pageIndex"])
+                    ? ViewContext.HttpContext.Request.Query["pageIndex"]
+                    : "1";
+
+    string pageSize = !string.IsNullOrEmpty(ViewContext.HttpContext.Request.Query["pageSize"])
+                                ? ViewContext.HttpContext.Request.Query["pageSize"]
+                                : "10";
+
+    string specialization = !string.IsNullOrEmpty(ViewContext.HttpContext.Request.Query["specialization"])
+                              ? ViewContext.HttpContext.Request.Query["specialization"]
+                              : "all";
+
+    string txtSearch = ViewBag.txtSearch;
+}
+<div class="search-bar-container">
+    <div class="search-bar">
+        <form method="GET">
+            <input type="hidden" value="@pageIndex" name="pageIndex" />
+            <input type="hidden" value="@pageSize" name="pageSize" />
+            <input type="hidden" value="@specialization" name="specialization" />
+
+            <input type="text" name="txtSearch" placeholder="Tìm theo Bác sĩ ..." value="@txtSearch">
+            <button type="submit">
+                <i class='bx bx-search'></i>
+            </button>
+        </form>
+    </div>
+</div>
+<div class="search-result-container row">
+    <div class="p-0 col-md-3">
+        <label class="form-label fw-bold">Chuyên khoa</label>
+        <div class="mt-4 form-group specialization-container">
+            <form method="get">
+                <input type="hidden" value="@pageIndex" name="pageIndex" />
+                <input type="hidden" value="@pageSize" name="pageSize" />
+                <input type="hidden" value="@txtSearch" name="txtSearch" />
+
+                <div class="form-check mb-2">
+                    <input onclick="this.form.submit()"
+                           checked="@(specialization == "all" ? true : false )"
+                           type="radio"
+                           class="form-check-input radio-lg"
+                           name="specialization"
+                           id="specialization-all"
+                           value="all" />
+                    <label class="form-check-label" for="specialization-all">
+                        Tất cả
+                    </label>
+                </div>
+
+                @foreach (var e in Model.Specializations)
+                {
+                    <div class="form-check mb-2">
+                        <input onclick="this.form.submit()"
+                               checked="@(specialization == e.Id.ToString() ? true : false )"
+                               type="radio"
+                               class="form-check-input radio-lg"
+                               name="specialization"
+                               id="specialization-@e.Id"
+                               value="@e.Id" />
+                        <label class="form-check-label" for="specialization-@e.Id">
+                            @e.Name
+                        </label>
+                    </div>
+                }
+            </form>
+        </div>
+
+    </div>
+    <div class="ms-3 p-0 col-md-8 border-start">
+        <div class="p-3">
+            <p class="m-0 text-secondary">
+                Tìm thấy <span class="text-decoration-underline text-dark fw-bold">@Model.TotalRecordCount</span> kết quả.
+            </p>
+        </div>
+        @if (Model.Doctors.Count() > 0)
+        {
+            <div class="">
+                @foreach (var doc in Model.Doctors)
+                {
+                    <div class="doctor-search-item p-4 border-top d-flex justify-content-between">
+                        <div style="cursor: pointer" class="d-flex">
+                            <div style="width: 120px; height: 120px;" class="me-3 doctor-img rounded-circle">
+                                <img src="@doc.AvatarString" alt="doctorImg" />
+                            </div>
+                            <div class="me-3 doctor-search-info">
+                                <h5 class="mb-2">@doc.DoctorTitle. @doc.Name</h5>
+                                <div class="mb-1 d-flex flex-wrap">
+                                    @foreach (var spe in doc.Specializations)
+                                    {
+                                        <label class="specialization-item-capsule">@spe.Name</label>
+                                    }
+                                </div>
+                                <p class="m-0">@doc.Address</p>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <a asp-page="./ThongTinBacSi" asp-route-doctorID="@doc.Id" class="button-hover">Đặt khám <i class='bx bx-right-arrow-alt'></i></a>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="mb-2 d-flex justify-content-end align-content-center">
+                <form method="get">
+                    <input type="hidden" value="@pageIndex" name="pageIndex" />
+                    <input type="hidden" value="@specialization" name="specialization" />
+                    <input type="hidden" value="@txtSearch" name="txtSearch" />
+
+                    <div style="font-size: 12px;" class="me-3 d-flex flex-column">
+                        <label>Total record: @Model.TotalRecordCount</label>
+                        <div class="">
+                            <label>Page size: </label>
+                            <select name="pageSize" id="pageSize" onchange="this.form.submit()">
+                                @foreach (var option in pageSizeOptions)
+                                {
+                                    <!option value="@option" @(option == pageSize ? "selected" : "")>
+                                        @option
+                                    </!option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </form>
+                <nav aria-label="Doc navigation example">
+                    <vc:pager paging-list="@Model.Doctors" />
+                </nav>
+            </div>
+        }
+        else
+        {
+            <div class="m-3 text-secondary">
+
+                <h2><i class='bx bx-info-circle'></i> Không có kết quả tìm kiếm với từ khoá vừa sử dụng.</h2>
+                <p>Bạn có thể kiểm tra và thử lại với một số gợi ý sau:</p>
+                <ul>
+                    <li>Kiểm tra xem từ đó có đúng chính tả không.</li>
+                    <li>Hãy thử giảm số lượng từ trong cụm từ tìm kiếm của bạn hoặc thử tìm kiếm lại bằng cụm từ tổng quát hơn.</li>
+                    <li>Nếu cụm từ tìm kiếm của bạn có nhiều hơn một từ, hãy kiểm tra khoảng cách.</li>
+                    <li>Thay đổi tuỳ chọn tìm kiếm hoặc cụm từ khác phổ biến hơn.</li>
+                </ul>
+            </div>
+        }
+    </div>
+</div>
+
+

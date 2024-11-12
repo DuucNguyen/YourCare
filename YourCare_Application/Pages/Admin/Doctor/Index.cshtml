@@ -1,0 +1,173 @@
+﻿@page
+@using ReflectionIT.Mvc.Paging
+@using YourCare_Application.Pages.Admin.Doctor
+@model IndexModel
+@addTagHelper *, ReflectionIT.Mvc.Paging
+
+@{
+    #region pagination
+    var pageSizeOptions = new string[] { "2", "5", "10", "20" };
+
+    var pageIndex = ViewContext.HttpContext.Request.Query["pageIndex"];
+
+    string pageSize = !string.IsNullOrEmpty(ViewContext.HttpContext.Request.Query["pageSize"])
+                                ? ViewContext.HttpContext.Request.Query["pageSize"]
+                                : "10";
+
+    string specialization = !string.IsNullOrEmpty(ViewContext.HttpContext.Request.Query["specialization"])
+                            ? ViewContext.HttpContext.Request.Query["specialization"]
+                            : "all";
+    #endregion
+
+    ViewData["Title"] = "Doctor";
+
+
+    int i = 1;
+}
+
+
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="mb-3">
+    <a style="width: 130px;" class="btn btn-success d-flex align-items-center" asp-page="Create">
+        Create New
+        <i class='bx bx-list-plus'></i>
+    </a>
+</div>
+<div class="mb-2 d-flex justify-content-end align-content-center">
+    <form method="get">
+        <input type="hidden" value="@pageIndex" name="pageIndex" />
+        <input type="hidden" value="@specialization" name="specialization" />
+        <div style="font-size: 12px;" class="me-3 d-flex flex-column">
+            <label>Total record: @Model.TotalRecordCount</label>
+            <div class="">
+                <label>Page size: </label>
+                <select name="pageSize" id="pageSize" onchange="this.form.submit()">
+                    @foreach (var option in pageSizeOptions)
+                    {
+                        <!option value="@option" @(option == pageSize ? "selected" : "")>
+                            @option
+                        </!option>
+                    }
+                </select>
+            </div>
+        </div>
+    </form>
+    <nav aria-label="Doc navigation example">
+        <vc:pager paging-list="@Model.Doctors" />
+    </nav>
+</div>
+<div class="d-flex justify-content-between">
+    <div class="col-md-3 ">
+        <label class="form-label fw-bold">Filter by specializations</label>
+        <div class="form-group specialization-container">
+            <form method="get">
+                <input type="hidden" value="@pageIndex" name="pageIndex" />
+                <input type="hidden" value="@pageSize" name="pageSize" />
+
+                <div class="form-check mb-2">
+                    <input onclick="this.form.submit()"
+                           checked="@(specialization == "all" ? true : false )"
+                           type="radio"
+                           class="form-check-input radio-lg"
+                           name="specialization"
+                           id="specialization-all"
+                           value="all" />
+                    <label class="form-check-label" for="specialization-all">
+                        All
+                    </label>
+                </div>
+
+                @foreach (var e in Model.Specializations)
+                {
+                    <div class="form-check mb-2">
+                        <input onclick="this.form.submit()"
+                               checked="@(ViewBag.spe == e.Id ? true : false )"
+                               type="radio"
+                               class="form-check-input radio-lg"
+                               name="specialization"
+                               id="specialization-@e.Id"
+                               value="@e.Id" />
+                        <label class="form-check-label" for="specialization-@e.Id">
+                            @e.Name
+                        </label>
+                    </div>
+                }
+            </form>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <table class="table table-responsive">
+            <thead class="table-success">
+            <th>#</th>
+            <th>Avatar</th>
+            <th>Name</th>
+            <th>Actions</th>
+            </thead>
+            <tbody>
+                @foreach (var d in Model.Doctors)
+                {
+                    <tr class="@(d.IsActive==false?"table-secondary":"")">
+                        <td>@i</td>
+                        <td>
+                            <div style="width: 120px; height:150px; border: 1px solid #ddd;">
+                                <img style="width:100%; height: 100%" src="@d.AvatarString" alt="doctorImg" />
+                            </div>
+                        </td>
+                        <td>
+                            <h6 class="mb-3">@d.DoctorTitle. <span>@d.Name</span></h6>
+                            <div style="width: 300px" class="mb-3 d-flex flex-wrap">
+                                @foreach (var e in d.Specializations)
+                                {
+                                    <label class="specialization-item-capsule">@e.Name</label>
+                                    <br />
+                                }
+                            </div>
+                            <div class="d-flex flex-column">
+                                <div>
+                                    <span class="">Phone</span>
+                                    <span class="text-decoration-underline">@d.PhoneNumber</span>
+                                </div>
+                                <div>
+                                    <span class="">Email</span>
+                                    <span class="text-decoration-underline"> @d.Email</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <a title="Manage timetable" class="btn btn-success" asp-page="/Admin/Doctor/ManageTimetable" asp-route-id="@d.Id"><i class='bx bxs-calendar'></i></a>
+                            <a title="Edit" class="btn btn-primary" asp-page="/Admin/Doctor/Update" asp-route-id="@d.Id"><i class='bx bxs-edit'></i></a>
+                            <a title="Delete" class="btn btn-danger" asp-page="/Admin/Doctor/Delete" asp-route-id="@d.Id"><i class='bx bxs-trash'></i></a>
+                        </td>
+                    </tr>
+                    i++;
+                }
+            </tbody>
+        </table>
+        <div class="mb-2 d-flex justify-content-end align-content-center">
+            <form method="get">
+                @* config more route value *@
+                <input type="hidden" value="@pageIndex" name="pageIndex" />
+                <input type="hidden" value="@specialization" name="specialization" />
+                <div style="font-size: 12px;" class="me-3 d-flex flex-column">
+                    <label>Total record: @Model.TotalRecordCount</label>
+                    <div class="">
+                        <label>Page size: </label>
+                        <select name="pageSize" id="pageSize" onchange="this.form.submit()">
+                            @foreach (var option in pageSizeOptions)
+                            {
+                                <!option value="@option" @(option == pageSize ? "selected" : "")>
+                                    @option
+                                </!option>
+                            }
+                        </select>
+                    </div>
+                </div>
+            </form>
+            <nav aria-label="Doc navigation example">
+                <vc:pager paging-list="@Model.Doctors" />
+            </nav>
+        </div>
+    </div>
+</div>

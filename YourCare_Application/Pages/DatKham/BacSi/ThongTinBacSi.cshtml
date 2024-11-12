@@ -1,0 +1,152 @@
+﻿@page
+@model YourCare_Application.Pages.DatKham.BacSi.ThongTinBacSiModel
+@{
+}
+<div class="d-flex justify-content-center align-items-center">
+
+    <div class="col-md-8 doctor-search-item p-4 d-flex flex-column justify-content-between">
+        <div style="cursor: pointer" class="d-flex">
+            <div style="width: 180px; height: 180px;" class="me-3 doctor-img rounded-circle">
+                <img src="@Model.Doc.AvatarString" alt="doctorImg" />
+            </div>
+            <div class="me-3 doctor-search-info">
+                <h5 class="mb-2">@Model.Doc.DoctorTitle. @Model.Doc.Name</h5>
+                <div class="d-flex align-items-center">
+                    <h6><i class='bx bxs-badge-check'></i> Bác sĩ | <span class="text-black fw-normal"><span class="fw-bold">@Model.Doc.Experience</span> năm kinh nghiệm.</span></h6>
+                </div>
+                <div class="d-flex align-items-center">
+                    <p class="text-secondary m-0 fs-6 me-3">Chuyên khoa: </p>
+                    <div class="mb-1 d-flex flex-wrap">
+                        @foreach (var spe in Model.Doc.Specializations)
+                        {
+                            <label class="specialization-item-capsule">@spe.Name</label>
+                        }
+                    </div>
+                </div>
+                <div class="text-secondary  me-3 d-flex align-items-center">
+                    <p style="width: 130px" class="m-0 fs-6">Trình độ:</p>
+                    <span style="font-weight: 500;" class="text-dark m-0 fs-6">@Model.Doc.DoctorTitle</span>
+                </div>
+                <div class="text-secondary  me-3 d-flex align-items-center">
+                    <p style="width: 130px" class="m-0 fs-6">Nơi công tác:</p>
+                    <span style="font-weight: 500;" class="text-dark m-0 fs-6">@Model.Doc.Address</span>
+                </div>
+            </div>
+        </div>
+        <div class="mt-5">
+            <h4>Giới thiệu</h4>
+            <p>
+                @Model.Doc.DoctorDescription
+            </p>
+        </div>
+        <div class="mt-5">
+            <h4>Kinh nghiệm làm việc</h4>
+            <p>
+                @Model.Doc.DoctorTitle. @Model.Doc.Name hiện đang công tác tại @Model.Doc.Address.
+                Bác sĩ có @Model.Doc.Experience năm kinh nghiệm trong lĩnh vực
+                @foreach (var spe in Model.Doc.Specializations)
+                {
+                    <a class="text-decoration-none" asp-page="/DatKham/BacSi/Index" asp-route-specialization="@spe.Id">@spe.Name</a>
+
+                    <span>,     </span>
+                }
+            </p>
+        </div>
+        <div class="mt-5 d-flex flex-column">
+            <h4>Đặt khám nhanh</h4>
+            <div class="timeSlot-date-container">
+                @foreach (var ts in Model.Doc.Timetables.DistinctBy(x => x.Date))
+                {
+                    var numberTimeSlots = Model.Doc.Timetables
+                    .Where(x => x.Date == ts.Date && x.IsAvailable
+                    )
+                    .Select(x => x.StartTime).Count();
+
+                    <div id="timetb-@ts.Id" onclick="GetTimeSlotAJAX(@ts.Id)"
+                         class="timeSlot-date
+                    @(ViewBag.chosenDate == ts.Date.Date ? "timeSlot-date-chosen" : "")
+                    @(numberTimeSlots <= 0 ? "timeSlot-date-unavalable" : "" )
+                                                    ">
+                        <p>@ts.Date.DayOfWeek</p>
+                        <p>@ts.Date.Day - @ts.Date.Month</p>
+
+                        @if (numberTimeSlots <= 0)
+                        {
+                            <span class="text-danger">Đã đầy lịch</span>
+                        }
+                        else
+                        {
+                            <span>@numberTimeSlots khung giờ</span>
+                        }
+
+                    </div>
+                }
+            </div>
+            <div class="mt-4 d-flex flex-column">
+                <h4>Khung giờ</h4>
+                <div class="timeSlot-slot-container">
+                    <p class="w-100 alert alert-warning m-0">
+                        <span class="d-flex align-items-center"><span class="me-2"><i class='fs-2 text-danger bx bx-error-circle'></i></span> Lịch làm việc trong ngày này đã hết. Vui lòng chọn ngày khác. Xin cảm ơn !</span>
+                    </p>
+                </div>
+                <div class="mt-2 alert alert-warning d-flex flex-column">
+                    <span><i class='text-danger bx bx-error-alt'></i> Lưu ý</span>
+                    <span style="font-size: 15px;">* Nếu bệnh nhân bận việc không đến khám được vui lòng hủy lịch khám đã đặt và đặt lại ngày khác. Xin cảm ơn!</span>
+                </div>
+            </div>
+            <div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+        GetTimeSlotAJAX(@Model.Doc.Timetables[0].Id);
+    });
+
+    function GetTimeSlotAJAX(id) {
+
+        var container = $(".timeSlot-slot-container");
+
+        $.ajax({
+            type: "GET",
+            url: '@Url.Page("/DatKham/BacSi/ThongTinBacSi", new { handler = "AJAX" })',
+            data: {
+                timeTableID: id,
+                doctorID: '@Model.Doc.Id',
+            },
+            success: function (response) {
+
+                $(".timeSlot-date-chosen").removeClass("timeSlot-date-chosen");
+                $("#timetb-" + response.chosenTimetb).addClass("timeSlot-date-chosen");
+
+                container.empty();
+
+                if (response.timetables.length > 0) {
+                    response.timetables.forEach(item => {
+                        if (item.isAvailable) {
+                            container.append('<div OnClick="SendLink(' + item.id + ')" class="timeSlot-slot">' + item.startTime + ' - ' + item.endTime + '</div>');
+                        }
+                        else {
+                            container.append('<div class="timeSlot-slot slot-unavailable">' + item.startTime + ' - ' + item.endTime + '</div>');
+                        }
+                    })
+                } else {
+                    container.append('<p class="w-100 alert alert-warning m-0"><span class="d-flex align-items-center"><span class="me-2"><i class="fs-2 text-danger bx bx-error-circle"></i></span> Lịch làm việc trong ngày này đã hết. Vui lòng chọn ngày khác. Xin cảm ơn!</span></p>');
+                }
+            },
+            error: function (response) {
+                console.log("ERROR !");
+            }
+        })
+    }
+
+    function SendLink(timetableId) {
+        var rawUrl = '@Html.Raw(@Url.Page("/DatKham/HoSoDatKham", new { doctorID = Model.Doc.Id, timetableID = "_timetableID" }))';
+        var url = rawUrl.replace("_timetableID", timetableId);
+        console.log(url);
+        window.location = url;
+    }
+
+</script>

@@ -1,0 +1,168 @@
+﻿@page
+@model YourCare_Application.Pages.DatKham.LichKhamModel
+@{
+}
+
+<style>
+    .star-rating {
+        direction: rtl;
+        display: inline-flex;
+        font-size: 50px !important;
+        justify-content: space-around;
+    }
+
+        .star-rating input[type="radio"] {
+            display: none;
+        }
+
+        .star-rating label {
+            font-size: 50px;
+            color: #ccc;
+            cursor: pointer;
+        }
+
+        .star-rating input[type="radio"]:checked ~ label {
+            color: gold;
+        }
+
+        .star-rating label:hover,
+        .star-rating label:hover ~ label {
+            color: gold;
+        }
+</style>
+
+<div class="d-flex justify-content-between">
+    <div class="col-md-4">
+
+        <h4>Lịch khám</h4>
+
+
+        <hr />
+        <div class="appointment-history-container">
+            @foreach (var a in Model.Appointments)
+            {
+                <div class="appointment-history-item
+                @(ViewBag.chosenAppointment == a.Id?"appointment-history-item-chosen":"")">
+                    <a asp-page="/DatKham/LichKham" asp-route-appointmentId="@a.Id">
+                        <div class="history-item-infor">
+                            <span>Bác sĩ: @a.Doctor.Name</span>
+                            <span>Hồ sơ: @a.PatientProfile.Name</span>
+                            <span>Thời gian: @a.TimeTable.Date.ToString("dd/MM/yyyy") - @a.TimeTable.StartTime - @a.TimeTable.EndTime</span>
+                            <span>@a.Status</span>
+                        </div>
+                    </a>
+                </div>
+            }
+        </div>
+        <partial name="_StatusMessage" model="@ViewBag.msg"></partial>
+    </div>
+    <div class="col-md-7">
+        @if (Model.Appointment != null && Model.Appointment.TimeTable != null)
+        {
+            <div class="appointment-info-container">
+                <div class="d-flex justify-content-between">
+                    <h4>Thông tin lịch khám</h4>
+                    @if (Model.Appointment.Status == Constants.StatusConstant.Status.Đang_Chờ)
+                    {
+                        <button type="submit" class="btn btn-danger"
+                                data-bs-toggle="modal"
+                                data-bs-target="#confirmationModalCancel">
+                            Hủy lịch khám
+                        </button>
+                    }
+                </div>
+                <hr />
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <div class="appointment-info-item">
+                            <span>Trạng thái: @Model.Appointment.Status</span>
+                        </div>
+                        <div class="appointment-info-item">
+                            <span>
+                                Ngày khám:
+                                <span>@(Model.Appointment.TimeTable != null ? @Model.Appointment.TimeTable.Date.ToString("d") : "--")</span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="d-flex">
+                        <div class="me-3">
+                            <span>Bác sĩ: <h6>@Model.Appointment.Doctor.Name</h6></span>
+                        </div>
+                        <div style="width: 80px; height: 80px;" class="doctor-img">
+                            <img src="@Model.Appointment.Doctor.AvatarString" alt="doctoImg" />
+                        </div>
+                    </div>
+                </div>
+                <div class="appointment-info-item">
+                    <label>Chuẩn đoán của bác sĩ</label>
+                    <textarea readonly>@(!string.IsNullOrEmpty(Model.Appointment.DoctorDianosis) ? Model.Appointment.DoctorDianosis : "Chưa có dữ liệu...")</textarea>
+                </div>
+                <div class="appointment-info-item">
+                    <label>Ghi chú của bác sĩ</label>
+                    <textarea readonly>@(!string.IsNullOrEmpty(Model.Appointment.DoctorNote) ? Model.Appointment.DoctorNote : "Chưa có dữ liệu...")</textarea>
+                </div>
+                @if (Model.Appointment.Status == Constants.StatusConstant.Status.Đã_hoàn_thành)
+                {
+                    <div class="appointment-info-item">
+                        <form method="POST" asp-page-handler="Feedback">
+                            <input type="hidden" asp-for="@Model.Appointment.Id" value="@Model.Appointment.Id" />
+                            <label for="feedback">Đánh giá buổi khám bệnh</label><br>
+                            <textarea @(!string.IsNullOrEmpty(Model.Appointment.PatientFeedBack) ? "readonly" : "")
+                                      name="txtFeedback"
+                                      class="w-100" id="feedback"
+                                      placeholder="Nếu có bất cứ điều gì không hài lòng về dịch vụ của cúng tôi vui lòng điền vào đây ..."></textarea><br><br>
+                            <label>Đánh giá:</label><br>
+                            @if (Model.Appointment.PatientRating == null)
+                            {
+                                <div class="star-rating">
+                                    <input @(Model.Appointment.PatientRating != null ? "disabled" : "") name="txtRating" type="radio" id="star5" value="5">
+                                    <label for="star5">★</label>
+                                    <input @(Model.Appointment.PatientRating != null ? "disabled" : "") name="txtRating" type="radio" id="star4" value="4">
+                                    <label for="star4">★</label>
+                                    <input @(Model.Appointment.PatientRating != null ? "disabled" : "") name="txtRating" type="radio" id="star3" value="3">
+                                    <label for="star3">★</label>
+                                    <input @(Model.Appointment.PatientRating != null ? "disabled" : "") name="txtRating" type="radio" id="star2" value="2">
+                                    <label for="star2">★</label>
+                                    <input @(Model.Appointment.PatientRating != null ? "disabled" : "") name="txtRating" type="radio" id="star1" value="1">
+                                    <label for="star1">★</label>
+                                </div>
+                                <br>
+                                <br>
+                            }
+                            else
+                            {
+                                <span>Đã đánh giá: <span style="font-size: 30px;">@Model.Appointment.PatientRating<span class="text-warning">★</span></span></span>
+                                <br>
+                                <br>
+                            }
+                            <button @(Model.Appointment.PatientRating != null && Model.Appointment.PatientFeedBack != null ? "disabled" : "") class="btn btn-warning" type="submit">Gửi phản hồi</button>
+                        </form>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</div>
+<div class="modal fade" id="confirmationModalCancel" tabindex="-1" aria-labelledby="confirmationModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmationModalTitle">Xác nhận</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="d-flex flex-column">
+                    <h4>Cập nhật trạng thái lịch khám: </h4>
+                    <h4 class="text-danger">Hủy lịch khám ? </h4>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+                <form method="POST" asp-page-handler="Cancel">
+                    <input type="hidden" asp-for="@Model.Appointment.Id" value="@Model.Appointment.Id" />
+                    <button type="submit" class="btn btn-success">Đồng ý</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

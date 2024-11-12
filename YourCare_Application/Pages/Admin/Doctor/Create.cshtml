@@ -1,0 +1,122 @@
+﻿@page
+@using YourCare_Application.Models
+@model CreateModel
+@{
+}
+<form method="post" asp-page="/User/Create" class="d-flex justify-content-between" enctype="multipart/form-data">
+    <div class="col-md-5">
+        <div class="mb-3 form-items">
+            <label class="form-label">@Html.DisplayNameFor(x => x.Input.Name)<span class="text-danger">*</span> </label>
+            <input class="form-control" type="text" asp-for="@Model.Input.Name" />
+        </div>
+        <div class="mb-3 form-items">
+            <label class="form-label">@Html.DisplayNameFor(x => x.Input.Email)<span class="text-danger">*</span></label>
+            <input class="form-control" type="text" asp-for="@Model.Input.Email" />
+        </div>
+        <div class="mb-3 form-items">
+            <label class="form-label">@Html.DisplayNameFor(x => x.Input.Address)<span class="text-danger">*</span></label>
+            <input class="form-control" type="text" asp-for="@Model.Input.Address" />
+        </div>
+        <div class="mb-3 form-items">
+            <label class="form-label">@Html.DisplayNameFor(x => x.Input.PhoneNumber)<span class="text-danger">*</span></label>
+            <input class="form-control" type="text" asp-for="@Model.Input.PhoneNumber" />
+        </div>
+        <div class="mb-3 form-items">
+            <label class="form-label">@Html.DisplayNameFor(x => x.Input.Gender)</label>
+            @*  <input id="gender" class="form-check" type="checkbox" asp-for="@Model.Input.Gender" />
+            <label for="gender">Male/Female</label> *@
+            <div class="d-flex">
+                <input id="male" class="form-check" type="radio" asp-for="@Model.Input.Gender" value="true" />
+                <label class="ms-1" for="male">Male</label>
+            </div>
+            <div class="d-flex">
+                <input id="female" class="form-check" type="radio" asp-for="@Model.Input.Gender" value="false" />
+                <label class="ms-1" for="female">Female</label>
+            </div>
+        </div>
+        <div class="mb-3 form-items">
+            <label class="form-label">@Html.DisplayNameFor(x => x.Input.Dob)<span class="text-danger">*</span></label>
+            <input class="form-control" type="date" asp-for="@Model.Input.Dob" />
+        </div>
+        <div class="text-danger" asp-validation-summary="All"></div>
+
+        <partial name="_StatusMessage" model="@Model.StatusMessage"></partial>
+    </div>
+    <div class="col-md-5">
+
+        <div class="mb-3 d-flex">
+            <img id="previewImage" src="#" alt="Avatar Preview" style="padding:2px; width: 200px; height: 200px; border: 1px solid #ddd;" />
+            <div class="p-2 d-flex flex-column">
+                <div class="mb-3 form-items">
+                    <label class="form-label">@Html.DisplayNameFor(x => x.Input.AvatarFile)<span class="text-danger">*</span></label>
+                    <input id="fileInput" class="form-control" type="file" asp-for="@Model.Input.AvatarFile" />
+                </div>
+                <div class="mb-3 form-items">
+                    <label class="form-label">@Html.DisplayNameFor(x => x.Input.DoctorTitle)<span class="text-danger">*</span></label>
+                    <input class="form-control" type="text" asp-for="@Model.Input.DoctorTitle" />
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-3 form-items">
+            <label class="form-label">Specializations<span class="text-danger">*</span></label>
+            <div class="dropdown">
+                <button class="btn btn-outline-primary dropdown-toggle" type="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                    Select Specializations
+                </button>
+                <ul style="height: 200px; overflow-y: auto;" class="p-3 dropdown-menu">
+                    @foreach (Specialization spe in ViewBag.specializations)
+                    {
+                        <li>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox"
+                                       name="selectedSpecializations"
+                                       value="@spe.Id" id="spe_@spe.Id" />
+                                <label class="form-check-label" for="spe_@spe.Id">
+                                    @spe.Name
+                                </label>
+                            </div>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+
+        <div class="mb-3 form-items">
+            <label class="form-label">@Html.DisplayNameFor(x => x.Input.Experience)<span class="text-danger">*</span></label>
+            <input class="form-control" type="number" asp-for="@Model.Input.Experience" />
+        </div>
+
+        <div class="mb-3 form-items">
+            <label class="form-label">@Html.DisplayNameFor(x => x.Input.DoctorDescription)</label>
+            <textarea class="form-control" asp-for="@Model.Input.DoctorDescription"></textarea>
+        </div>
+        <button class="btn btn-success" type="submit">Submit</button>
+    </div>
+</form>
+
+<script>
+    // Prevent dropdown from collapsing when clicking inside it
+    document.querySelectorAll('.dropdown-menu').forEach(menu => {
+        menu.addEventListener('click', function (e) {
+            e.stopPropagation();
+        });
+    });
+
+    document.getElementById('fileInput').addEventListener('change', function (event) {
+        const file = event.target.files[0]; // Get the first file from the input
+
+        if (file) {
+            const reader = new FileReader(); // Create a FileReader object
+
+            reader.onload = function (e) {
+                const previewImage = document.getElementById('previewImage');
+                previewImage.src = e.target.result; // Set the image src to the loaded data
+            };
+
+            reader.readAsDataURL(file); // Read the file as a Data URL
+        }
+    });
+
+</script>

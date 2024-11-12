@@ -1,0 +1,59 @@
+﻿@page
+@model YourCare_Application.Pages.SuccessModel
+@{
+}
+<style>
+    /* Center the icon and set the page style */
+    .success-body {
+        display: flex;
+        justify-content: center;
+        align-content: center;
+        background: linear-gradient(to top, #03fc5e, #3903fc);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        color: transparent;
+    }
+
+    .icon {
+        font-size: 250px;
+    }
+
+    .message-container {
+        text-align: center;
+        margin-top: 20px;
+        padding: 20px 40px;
+        background-color: rgba(40, 167, 69, 0.15); /* Light green success background */
+        border-radius: 12px;
+        box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
+        animation: fadeIn 1.2s ease-out;
+    }
+
+    .message {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #28a745; /* Dark green success color */
+        font-family: Arial, sans-serif;
+        margin: 0;
+    }
+
+    /* Optional decorative line under message */
+    .message::after {
+        content: '';
+        display: block;
+        width: 60px;
+        height: 4px;
+        background-color: #28a745;
+        margin: 10px auto 0;
+        border-radius: 2px;
+    }
+
+</style>
+<div class="d-flex flex-column justify-content-center align-items-center">
+    <div class="success-body">
+        <i class='bx bx-calendar-check icon'></i>
+    </div>
+    <div class="message-container">
+        <h3 class="message">@Model.Message</h3>
+    </div>
+</div>

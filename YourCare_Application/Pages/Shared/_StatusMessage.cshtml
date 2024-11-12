@@ -1,0 +1,11 @@
+﻿@model string
+
+@if (!String.IsNullOrEmpty(Model))
+{
+    var statusMessageClass = Model.StartsWith("Error") ? "danger" : "success";
+
+    <div class="alert alert-@statusMessageClass alert-dismissible d-flex justify-content-between align-content-center" role="alert">
+        <h5 class="d-flex align-items-center text-center m-0">@Model</h5>
+        <button type="button" class="close btn btn-danger" data-bs-dismiss="alert" aria-label="Close"><span aria-hidden="true">X</span></button>
+    </div>
+}

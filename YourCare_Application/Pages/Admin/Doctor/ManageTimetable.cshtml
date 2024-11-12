@@ -1,0 +1,150 @@
+﻿@page
+@model YourCare_Application.Pages.Admin.Doctor.ManageTimetableModel
+@{
+
+    var minDate = DateTime.Now.Date.ToString("yyyy-MM-dd");
+
+}
+<div class="d-flex justify-content-between">
+    <div class="col-md-4">
+        <div class="p-3 shadow rounded-3 d-flex flex-column align-items-center">
+            <div class="doctor-img">
+                <img src="@Model.Doc.AvatarString" alt="avatar" />
+            </div>
+            <div class="doctor-title">
+                @Model.Doc.DoctorTitle. @Model.Doc.Name
+            </div>
+            <div class="mb-3 d-flex flex-wrap align-items-center">
+                @foreach (var e in Model.Doc.Specializations)
+                {
+                    <label class="specialization-item-capsule">@e.Name</label>
+                    <br />
+                }
+            </div>
+            <div class="d-flex flex-column">
+                <div>
+                    <label style="width: 100px" class="">Phone: </label>
+                    <span class="text-decoration-underline">@Model.Doc.PhoneNumber</span>
+                </div>
+                <div>
+                    <label style="width: 100px" class="">Email: </label>
+                    <span class="text-decoration-underline"> @Model.Doc.Email</span>
+                </div>
+                <div>
+                    <label style="width: 100px" class="">Address: </label>
+                    <span class="text-decoration-underline"> @Model.Doc.Address</span>
+                </div>
+            </div>
+        </div>
+        <partial name="_StatusMessage" model="@Model.StatusMessage"></partial>
+    </div>
+
+    <div class="col-md-7">
+        <div class="p-3 shadow rounded-3 ">
+            <h4 class="text-center">Lịch khám</h4>
+            <div class="mb-4 timeTable-dayTime-item">
+                <label id="lb_checkAll" for="checkAll" class="btn btn-outline-primary fw-bold">
+                    <input type="checkbox" id="checkAll">
+                    Chọn tất cả
+                </label>
+            </div>
+            <div class="d-flex flex-column">
+                <form method="post">
+                    <input type="hidden" name="DoctorID" value="@Model.Doc.Id" />
+                    <div class="timeTable-dayTime-title">
+                        <span>
+                            <i class='bx bx-sun'></i> Buổi sáng
+                        </span>
+                        <div class="timeTable-dayTime">
+                            @foreach (var item in ViewBag.morningTimeTable)
+                            {
+                                <div class="timeTable-dayTime-item">
+                                    <label for="dayitem-@item.StartTime">
+                                        <input onclick="CheckSelectAll()" class="cbx_timeSlot" type="checkbox" id="dayitem-@item.StartTime" name="timeSlot" value="@item.StartTime.ToString("HH:mm")-@item.EndTime.ToString("HH:mm")" />
+                                        @item.StartTime - @item.EndTime
+                                    </label>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    <div class="timeTable-dayTime-title">
+                        <span>
+                            <i class='bx bxs-sun'></i> Buổi chiều
+
+                        </span>
+                        <div class="timeTable-dayTime">
+                            @foreach (var item in ViewBag.afternoonTimeTable)
+                            {
+                                <div class="timeTable-dayTime-item">
+                                    <label for="dayitem-@item.StartTime">
+                                        <input onclick="CheckSelectAll()" class="cbx_timeSlot" type="checkbox" id="dayitem-@item.StartTime" name="timeSlot" value="@item.StartTime.ToString("HH:mm")-@item.EndTime.ToString("HH:mm")" />
+                                        @item.StartTime - @item.EndTime
+                                    </label>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    <div class="timeTable-dayTime-title">
+                        <span><i class='bx bxs-calendar'></i> Ngày</span>
+                        <div class="d-flex justify-content-between timeTable-dayTime">
+                            <div class="me-3">
+                                <label for="startDate">Từ ngày:</label>
+                                <input required type="date" name="startDate" id="startDate" min="@minDate" />
+                            </div>
+                            <div class="me-3">
+                                <label for="startDate">Đến ngày:</label>
+                                <input required type="date" name="endDate" id="endDate" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-end">
+                        <button class="btn btn-primary">Lưu</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var checkedboxes;
+    var checkboxes;
+
+
+
+
+
+
+    document.addEventListener("DOMContentLoaded", () => {
+        checkedboxes = document.querySelectorAll('input[type="checkbox"].cbx_timeSlot:checked');
+        checkboxes = document.querySelectorAll('input[type="checkbox"].cbx_timeSlot');
+    });
+
+    document.getElementById("lb_checkAll").addEventListener("click", () => {
+        checkedboxes = document.querySelectorAll('input[type="checkbox"].cbx_timeSlot:checked');
+        checkboxes = document.querySelectorAll('input[type="checkbox"].cbx_timeSlot');
+
+        var isChecked = document.getElementById("checkAll").checked;
+
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = isChecked;
+        });
+
+    });
+
+    function CheckSelectAll() {
+
+        checkedboxes = document.querySelectorAll('input[type="checkbox"].cbx_timeSlot:checked');
+        checkboxes = document.querySelectorAll('input[type="checkbox"].cbx_timeSlot');
+
+        var checkAll = document.getElementById("checkAll");
+        checkAll.checked = checkedboxes.length == checkboxes.length;
+
+    }
+    document.getElementById("startDate").addEventListener("change", function () {
+        var startDate = this.value;
+        document.getElementById("endDate").min = startDate;
+    });
+
+
+</script>

@@ -1,0 +1,172 @@
+﻿@page
+@model YourCare_Application.Pages.TrangChuBacSi.HoSoLichKhamModel
+@{
+}
+<div class="d-flex justify-content-between">
+    <div class="col-md-7">
+        <div class="appointment-patient-profile">
+            <h2 class="m-0">Hồ sơ bệnh nhân</h2>
+            <hr />
+            <div class="patient-profile-item">
+                <span>Họ và tên: </span>
+                <span>@(!string.IsNullOrEmpty(Model.PatientProfile.Name) ? Model.PatientProfile.Name : "--")</span>
+            </div>
+            <div class="patient-profile-item">
+                <span>Giới tính: </span>
+                <span>@(Model.PatientProfile.Gender == true ? "Nam" : "Nữ")</span>
+            </div>
+            <div class="patient-profile-item">
+                <span>Ngày sinh: </span>
+                <span>@(Model.PatientProfile.Dob != null ? Model.PatientProfile.Dob.Value.ToString("dd/MM/yyyy") : "--")</span>
+            </div>
+            <div class="patient-profile-item">
+                <span>Địa chỉ: </span>
+                <span>@(Model.PatientProfile.Address != null ? Model.PatientProfile.Address : "--")</span>
+            </div>
+            <div class="patient-profile-item">
+                <span>Nghề nghiệp: </span>
+                <span>@(!string.IsNullOrEmpty(Model.PatientProfile.Career) ? Model.PatientProfile.Career : "--")</span>
+            </div>
+            <div class="patient-profile-item">
+                <span>Dân tộc: </span>
+                <span>@(!string.IsNullOrEmpty(Model.PatientProfile.Ethnic) ? Model.PatientProfile.Ethnic : "--")</span>
+            </div>
+            <div class="patient-profile-item">
+                <span>Số điện thoại: </span>
+                <span>@(!string.IsNullOrEmpty(Model.PatientProfile.PhoneNumber) ? Model.PatientProfile.PhoneNumber : "--")</span>
+            </div>
+            <div class="patient-profile-item">
+                <span>Email: </span>
+                <span>@(!string.IsNullOrEmpty(Model.PatientProfile.Email) ? Model.PatientProfile.Email : "--")</span>
+            </div>
+            <div class="d-flex flex-column">
+                <span style="font-size: 20px">Ghi chú của bệnh nhân: </span>
+                <textarea style="height: 130px; max-height: 200px; min-height: 100px;" class="p-3">@(!string.IsNullOrEmpty(Model.Appointment.PatientNote) ? Model.Appointment.PatientNote : "--")</textarea>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-5">
+        <form id="submit-form" method="POST">
+            <input type="hidden" asp-for="@Model.Appointment.Id" />
+            <div class="appointment-doctor-dianosis">
+                <h2 class="m-0">Chuẩn đoán của Bác sĩ</h2>
+                <hr />
+                <div class="doctor-dianosis-item">
+                    <label for="disease">Chuẩn đoán bệnh: </label>
+                    <textarea asp-for="@Model.Appointment.DoctorDianosis" placeholder="Triệu chứng, bệnh liên quan,...">@Model.Appointment.DoctorDianosis</textarea>
+                </div>
+                <div class="doctor-dianosis-item">
+                    <label for="disease">Ghi chú của bác sĩ: </label>
+                    <textarea asp-for="@Model.Appointment.DoctorNote" placeholder="Lời khuyên, cách điều trị,...">@Model.Appointment.DoctorNote</textarea>
+                </div>
+            </div>
+            <div class="appointment-doctor-dianosis">
+                <h2 class="m-0">Thông tin lịch khám</h2>
+                <hr />
+                <div class="doctor-dianosis-item">
+                    <label>Chi phí buổi khám: </label>
+                    <select id="select-price" asp-items="@Model.Prices" name="txtPrice"></select>
+                </div>
+                <div class="doctor-dianosis-item">
+                    <button id="confirm-btn"
+                            type="button"
+                            class="btn btn-primary fw-bold fs-4"
+                            data-name="@Model.PatientProfile.Name"
+                            data-time="@Model.TimeTable.StartTime - @Model.TimeTable.EndTime"
+                            data-bs-toggle="modal"
+                            data-bs-target="#confirmationModal">
+                        Cập nhật
+                    </button>
+                    @if(Model.Appointment.Status == Constants.StatusConstant.Status.Đang_Chờ)
+                    {
+                        <button type="button"
+                                class="mt-3 btn btn-danger fw-bold fs-4"
+                                data-bs-toggle="modal"
+                                data-bs-target="#confirmationModalAbsent">
+                            Vắng
+                        </button>
+                    }
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmationModalTitle">Xác nhận đã xử lí xong lịch khám ?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body confirmation-info">
+                <div class="confirmation-info-item">
+                    <span>Bệnh nhân: </span>
+                    <span id="confirm-name"></span>
+                </div>
+                <div class="confirmation-info-item">
+                    <span>Thời gian: </span>
+                    <span id="confirm-time"></span>
+                </div>
+                <div class="confirmation-info-item">
+                    <span>Chi phí: </span>
+                    <span id="confirm-price"></span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+                <button id="submit-btn" type="submit" class="btn btn-success">Đồng ý</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="confirmationModalAbsent" tabindex="-1" aria-labelledby="confirmationModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmationModalTitle">Xác nhận</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+               <div class="d-flex flex-column">
+                    <h4>Cập nhật trạng thái lịch khám: </h4>
+                    <h4 class="text-danger">Bệnh nhân vắng mặt ? </h4>
+               </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+                <form method="POST" asp-page-handler="Absent">
+                    <input type="hidden" asp-for="@Model.Appointment.Id" value="@Model.Appointment.Id"/>
+                    <button id="submit-btn" type="submit" class="btn btn-success">Đồng ý</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+        $("#submit-btn").click(() => {
+            $("#submit-form").submit();
+        });
+
+
+        $("#confirm-btn").click(function () {
+
+            var price = $("#select-price").val();
+
+            $("#confirm-name").text($(this).data("name"));
+            $("#confirm-time").text($(this).data("time"));
+            $("#confirm-price").text(price);
+
+        });
+    });
+
+
+
+</script>
+

@@ -1,0 +1,1073 @@
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+    overflow-x: hidden;
+}
+
+
+.logo-container {
+    background: linear-gradient(to right, #03fc5e, #3903fc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+}
+
+.logo {
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.button-authen {
+    width: 100%;
+    padding: 5px 20px;
+    border-radius: 5px;
+    background: linear-gradient(to right, #03fc5e, #3903fc);
+    color: white;
+    text-decoration: none;
+    border: none;
+}
+
+    .button-authen:hover {
+        background: linear-gradient(to left, #03fc5e, #3903fc);
+        color: white;
+    }
+
+/*=================================================LOGIN-REGISTER==================================================*/
+body {
+}
+
+.button {
+    width: 100%;
+}
+
+form {
+}
+/*
+.img-container {
+    width: 100%;
+    height: 100%;
+
+}
+
+img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}*/
+
+.nav-container {
+    display: flex;
+    justify-content: space-around;
+}
+
+    .nav-container a {
+        text-decoration: none;
+        font-size: 20px;
+        font-weight: 500;
+        color: black;
+    }
+
+        .nav-container a:hover {
+            color: #3903fc;
+        }
+
+
+
+.navigation-chosen {
+    border-bottom: 3px solid #03fc5e !important;
+    color: #3903fc !important;
+}
+
+
+/*=================================================Home Page==================================================*/
+
+
+.button-hover {
+    max-height: 35px;
+    max-width: 170px;
+    padding: 5px 15px;
+    display: flex;
+    align-items: center;
+    background: #1975DC;
+    border: none;
+    border-radius: 50px;
+    color: #fff;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+    .button-hover i {
+        font-size: 18px;
+        font-weight: 500;
+        transition: transform 0.1s ease-in-out;
+    }
+
+    .button-hover:hover {
+        background: #1E3A8A;
+        color: #fff;
+    }
+
+        .button-hover:hover i {
+            transform: translateX(5px);
+        }
+
+.specialization-container {
+    padding-left: 10px;
+    height: 400px;
+    overflow-y: auto;
+}
+
+    /* WebKit browsers (Chrome, Safari, Edge) */
+    .specialization-container::-webkit-scrollbar {
+        width: 10px;
+    }
+
+    .specialization-container::-webkit-scrollbar-track {
+        background: #f1f1f1; /* Background of the track */
+        border-radius: 10px;
+    }
+
+    .specialization-container::-webkit-scrollbar-thumb {
+        background: linear-gradient(to bottom, #03fc5e, #3903fc); /* Color of the scroll thumb */
+        border-radius: 10px; /* Rounded corners on the thumb */
+        border: 1px solid #f1f1f1; /* Add a small border around the thumb */
+    }
+
+
+.specialization-item-capsule {
+    margin: 0 3px 3px 0;
+    padding: 5px 12px;
+    background: #F3F4F6;
+    border-radius: 50px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    color: #1975DC;
+}
+
+/* Custom CSS to make the radio buttons larger */
+.radio-lg {
+    width: 1rem;
+    height: 1rem;
+}
+
+/* Optional: Add more spacing between radio button and label */
+.form-check-label {
+    margin-left: 10px;
+}
+
+.doctor-items {
+    padding: 20px 0;
+    display: flex;
+    overflow-x: scroll;
+}
+
+    /* WebKit browsers (Chrome, Safari, Edge) */
+    .doctor-items::-webkit-scrollbar {
+        height: 11px;
+        min-width: 25px;
+    }
+
+    .doctor-items::-webkit-scrollbar-track {
+        background: #f1f1f1; /* Background of the track */
+        border-radius: 10px;
+    }
+
+    .doctor-items::-webkit-scrollbar-thumb {
+        background: linear-gradient(to left, #03fc5e, #3903fc); /* Color of the scroll thumb */
+        border-radius: 10px; /* Rounded corners on the thumb */
+        border: 2px solid #f1f1f1; /* Add a small border around the thumb */
+    }
+
+
+.doctor-item {
+    margin: 0px 10px;
+    min-width: 280px;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    align-items: center;
+    cursor: pointer;
+}
+
+    .doctor-item:hover {
+        box-shadow: 0.1px 0.1px 5px 0.1px #ddd;
+    }
+
+        .doctor-item:hover a {
+            color: #197BDD;
+            text-decoration: underline;
+        }
+
+        .doctor-item:hover i {
+            transform: translateX(5px);
+        }
+
+.doctor-item-info {
+    padding: 10px;
+    display: flex;
+    height: 250px;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.doctor-title {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: black;
+    font-size: 18px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+    .doctor-title:hover {
+        color: #197BDD;
+        text-decoration: underline;
+    }
+
+.doctor-spes {
+    align-items: center;
+}
+
+.doctor-img {
+    width: 96px;
+    height: 96px;
+    border-radius: 50px;
+    overflow: hidden;
+}
+
+    .doctor-img img {
+        max-width: 100%;
+        object-fit: cover;
+    }
+
+
+.appointment-link {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+    width: 100%;
+    border-top: 1px solid #ddd;
+    text-decoration: none;
+    color: black;
+    font-weight: 500;
+    font-size: 14px;
+    cursor: pointer;
+    text-decoration: none !important;
+}
+
+    .appointment-link:hover {
+        color: #197BDD;
+    }
+
+    .appointment-link i {
+        transition: transform 0.1s ease-in-out;
+        font-size: 18px;
+    }
+
+    .appointment-link:hover i {
+    }
+
+
+.specialization-items {
+    display: flex;
+    flex-wrap: wrap;
+    flex-grow: 6;
+}
+
+.specialization-item {
+    margin-bottom: 10px;
+    margin-right: 10px;
+    padding: 15px;
+    display: flex;
+    width: calc(100vw / 7.5);
+    flex-direction: column;
+    align-items: center;
+    border-radius: 12px;
+    cursor: pointer;
+}
+
+    .specialization-item:hover {
+        box-shadow: 1px 1px 40px #ddd;
+    }
+
+    .specialization-item p {
+        margin: 0;
+        font-size: 14px;
+        font-weight: 500;
+        text-align: center;
+        color: #000;
+    }
+
+.specialization-img {
+    margin-bottom: 10px;
+    width: 64px;
+    height: 64px;
+}
+
+    .specialization-img img {
+        width: 100%;
+    }
+/*=================================================END Home Page==================================================*/
+/*=================================================DatKham-BacSi==================================================*/
+
+.search-bar-container {
+    position: absolute;
+    left: 0;
+    top: 60px;
+    width: 100vw;
+    padding: 20px;
+    background: #1975DC;
+    display: flex;
+    align-items: center;
+}
+
+.search-bar {
+    width: 50%;
+    margin: auto;
+}
+
+    .search-bar form {
+        display: flex;
+        background: #fff;
+        align-items: center;
+        justify-content: space-between;
+        border-radius: 50px;
+    }
+
+    .search-bar input {
+        width: 100%;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 50px;
+    }
+
+        .search-bar input:focus {
+            outline: none;
+        }
+
+    .search-bar button {
+        padding: 5px 10px;
+        display: flex;
+        align-items: center;
+        background: none;
+        border: none;
+        font-size: 30px;
+        color: #1975DC;
+        cursor: pointer;
+        text-align: center;
+    }
+
+
+.search-result-container {
+    margin-top: 100px;
+}
+
+.doctor-search-item {
+    border-radius: 15px;
+    box-shadow: 1px 1px 30px #ddd;
+}
+
+    .doctor-search-item i {
+        font-size: 16px;
+    }
+
+    .doctor-search-item h6 {
+        font-size: 20px;
+        color: #1975DC;
+    }
+
+.doctor-search-info {
+}
+
+    .doctor-search-info p {
+        font-size: 13px;
+        font-weight: 500;
+    }
+
+    .doctor-search-info:hover h5 {
+        text-decoration: underline;
+    }
+/*=================================================END DatKham-BacSi==================================================*/
+/*=================================================ManageTimeTable-BacSi==================================================*/
+
+
+/*.doctor-profile-vertical{
+    border-radius: 25px;
+    padding: 20px;
+    box-shadow: 1px 1px 10px #ddd;
+}*/
+
+.timeTable-dayTime-title {
+    border-top: 1px solid #ddd;
+    display: flex;
+    position: relative;
+    width: 100%;
+}
+
+    .timeTable-dayTime-title span {
+        display: flex;
+        align-items: center;
+        text-align: center;
+        font-weight: 500;
+        background: #fff;
+        position: absolute;
+        left: 0px;
+        top: -15px;
+        color: #1975DC;
+    }
+
+
+.timeTable {
+}
+
+.timeTable-dayTime {
+    padding: 30px 10px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+}
+
+    .timeTable-dayTime input {
+        padding: 5px;
+        border: 1px solid #1975DC;
+        border-radius: 5px;
+    }
+
+    .timeTable-dayTime label {
+        font-weight: 500;
+        color: #1975DC;
+    }
+
+    .timeTable-dayTime input:focus {
+        outline: none;
+    }
+
+.timeTable-dayTime-item {
+    height: 45px;
+}
+
+    .timeTable-dayTime-item label {
+        margin: 0 5px;
+        padding: 8px;
+        border: 1px solid #1975DC;
+        border-radius: 5px;
+        color: #1975DC;
+        cursor: pointer;
+    }
+
+        .timeTable-dayTime-item label:hover {
+            color: #fff;
+            background: #1975DC;
+        }
+
+/*=================================================END ManageTimeTable-BacSi==================================================*/
+/*=================================================DatKham-BacSi-ThongTinBacSi==================================================*/
+.timeSlot-date-container {
+    width: 100%;
+    padding: 10px 0px;
+    display: flex;
+    overflow-x: auto;
+}
+
+.timeSlot-date {
+    min-width: 100px;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    border-bottom: 3px solid #fff;
+}
+
+    .timeSlot-date span {
+        color: #22C55E;
+    }
+
+    .timeSlot-date:hover {
+        background: #EFF6FF;
+        border-bottom: 3px solid #1975DC;
+    }
+
+.timeSlot-date-chosen {
+    background: #EFF6FF;
+    border-bottom: 3px solid #1975DC;
+}
+
+.timeSlot-date-unavalable {
+    cursor: not-allowed;
+}
+
+.timeSlot-date p {
+    font-size: 14px;
+    font-weight: 500;
+    margin: 0;
+}
+
+.timeSlot-date span {
+    font-size: 12px;
+}
+
+.timeSlot-slot-container {
+    display: flex;
+    flex-wrap: wrap;
+    height: 150px;
+    overflow-y: scroll;
+}
+
+.timeSlot-slot {
+    max-height: 40px;
+    margin: 5px;
+    padding: 8px;
+    color: #000;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+    .timeSlot-slot:hover {
+        color: #fff;
+        background: #1975DC;
+        transition: background-color 200ms ease-in;
+    }
+
+.timeSlot-chosen {
+    background: #1975DC;
+    color: #fff;
+    cursor: not-allowed;
+}
+
+.slot-unavailable {
+    cursor: not-allowed;
+    color: #fff;
+    background: #676767;
+}
+
+    .slot-unavailable:hover {
+        cursor: not-allowed;
+        color: #fff;
+        background: #676767;
+    }
+
+
+/*=================================================END - DatKham-BacSi-ThongTinBacSi==================================================*/
+/*=================================================DatKham-HoSoDatKham==================================================*/
+
+.btn-slideToggle {
+    background: #1975DC;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    align-content: center;
+    display: flex;
+    align-items: center;
+}
+
+    .btn-slideToggle i {
+        margin: 3px;
+        font-size: 20px;
+    }
+
+    .btn-slideToggle:hover {
+        background: #2767af;
+    }
+
+.btn-slideToggle-outline {
+    border: 2px solid #1975DC;
+    border: none;
+    background: #fff;
+    color: #1975DC;
+    border-radius: 5px;
+}
+
+    .btn-slideToggle-outline i {
+        font-size: 20px;
+        font-weight: 700;
+    }
+
+.profile-doctor {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+    border-radius: 5px;
+    box-shadow: 1px 1px 10px #ddd;
+}
+
+.profile-doctor-info {
+    padding: 10px 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+}
+
+.profile-timetable-info {
+    padding: 10px 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+    .info-row span:last-child {
+        font-weight: 500;
+    }
+
+.profile-patient {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+    border-radius: 5px;
+    box-shadow: 1px 1px 10px #ddd;
+    margin-right: 20px;
+}
+
+.profile-patient-title {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    color: #1975DC;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+    .profile-patient-title span:first-child {
+        padding: 2px 8px;
+        border-radius: 3px;
+        margin-right: 10px;
+        background: #22C55E;
+        color: #fff;
+    }
+
+.profile-container {
+    padding: 10px;
+    overflow-y: scroll;
+    max-height: 350px;
+    background: #F1F1F1;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+    .profile-container::-webkit-scrollbar {
+        width: 10px;
+        margin: 5px 0;
+    }
+
+    .profile-container::-webkit-scrollbar-track {
+        background: #ddd;
+        border-radius: 10px;
+    }
+
+    .profile-container::-webkit-scrollbar-thumb {
+        background: red;
+        border-radius: 10px;
+        background: linear-gradient(to bottom, #03fc5e, #3903fc);
+        border: 1px solid #F1F1F1;
+    }
+
+.profile-item-head {
+    background: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    margin-top: 12px;
+}
+
+    .profile-item-head label {
+        cursor: pointer;
+    }
+
+    .profile-item-head:hover {
+        border: 2px solid #1975DC;
+    }
+
+.profile-item-head-chosen {
+    border: 2px solid #1975DC;
+}
+
+.profile-item-img {
+    width: 60px;
+    height: 60px;
+    padding: 10px;
+    margin-right: 20px;
+}
+
+    .profile-item-img img {
+        object-fit: contain;
+        width: 100%;
+    }
+
+.profile-item-info {
+    display: flex;
+    flex-direction: column;
+}
+
+    .profile-item-info span {
+        font-weight: 600;
+    }
+
+        .profile-item-info span:first-child {
+            font-size: 18px;
+        }
+
+.profile-item-body {
+    background: #fff;
+    padding: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.profile-item-body-chosen {
+    border-left: 2px solid #1975DC;
+    border-right: 2px solid #1975DC;
+    border-bottom: 2px solid #1975DC;
+}
+
+.profile-item-body-info {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 5px;
+    border-bottom: 1px dashed #ddd;
+}
+
+    .profile-item-body-info span:nth-child(2n+2) {
+        font-weight: 500;
+    }
+
+.form-vertical {
+}
+
+.form-vertical-row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.form-vertical-row-item {
+    width: 48%;
+    padding: 10px;
+}
+
+.form-vertical label {
+    width: 200px;
+}
+
+.form-vertical input {
+}
+/*=================================================END-DatKham-HoSoDatKham==================================================*/
+/*=================================================TrangChuBacSi-ThongTinLichKham==================================================*/
+
+.appointment-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.appointment-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    margin: 10px 0;
+    width: 100%;
+}
+
+    .appointment-item:hover {
+        border: 2px solid #1975DC;
+    }
+
+.appointment-item-timeSlot {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+    padding: 10px 5px;
+    border-radius: 3px;
+    font-size: 20px;
+    font-weight: 500;
+    border: 2px solid #1975DC;
+    color: #1975DC;
+}
+
+.appointment-item-info {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+    .appointment-item-info span {
+        width: 100px;
+    }
+
+.appointment-item-completed {
+    border: 2px solid #22C55E;
+}
+/*=================================================END-TrangChuBacSi-ThongTinLichKham==================================================*/
+/*=================================================TrangChuBacSi-HoSoLichKham==================================================*/
+.appointment-patient-profile {
+    margin: 10px 10px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    border: 2px solid #1975DC;
+    border-radius: 5px;
+}
+
+.patient-profile-item {
+    margin: 20px 0;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px dashed #000;
+}
+
+    .patient-profile-item span {
+        font-size: 20px;
+    }
+
+        .patient-profile-item span:nth-child(2n+2) {
+            font-weight: 500;
+            color: #1975DC;
+        }
+
+
+.appointment-doctor-dianosis {
+    margin: 10px 10px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    border: 2px solid #22C55E;
+    border-radius: 5px;
+    background: #22C55E;
+    color: #fff;
+}
+
+.doctor-dianosis-item {
+    display: flex;
+    flex-direction: column;
+    margin: 15px 0;
+}
+
+    .doctor-dianosis-item label {
+        font-size: 20px;
+        font-weight: 500;
+    }
+
+    .doctor-dianosis-item textarea {
+        padding: 10px;
+        min-height: 150px;
+        max-height: 250px;
+        border: none;
+        border-radius: 3px;
+    }
+
+        .doctor-dianosis-item textarea:focus {
+            outline: none;
+        }
+
+    .doctor-dianosis-item select {
+        padding: 10px;
+        border: none;
+        border-radius: 3px;
+    }
+
+        .doctor-dianosis-item select:focus {
+            outline: none;
+        }
+
+.confirmation-info {
+}
+
+.confirmation-info-item {
+    margin: 20px 0;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px dashed #000;
+}
+
+    .confirmation-info-item span:nth-child(2n+2) {
+        font-size: 18px;
+        font-weight: 500;
+    }
+/*=================================================END-TrangChuBacSi-HoSoLichKham==================================================*/
+/*=================================================Admin-AdminDashboard==================================================*/
+
+
+.dashboard-leaderBoard {
+    height: 500px;
+    overflow-y: scroll;
+    margin: 20px 0;
+}
+
+.dashboard-item {
+    display: flex;
+}
+
+    .dashboard-item a:hover {
+        text-decoration: none;
+    }
+
+.dashboard-img {
+    margin: 0 10px;
+    width: 200px;
+    background: #1975DC;
+    padding: 10px;
+    border: 1px solid #ddd;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 10px;
+    overflow: hidden;
+    color: #fff;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+}
+
+    .dashboard-img:hover {
+        transform: translateY(-10px);
+    }
+
+    .dashboard-img img {
+        margin-bottom: 10px;
+        width: 100%;
+        height: 100%;
+        border-radius: 6px;
+    }
+
+.leaderBoard-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px;
+    padding: 10px;
+    border-bottom: 2px dashed #000;
+}
+
+.leaderBoard-item-info {
+    display: flex;
+    flex-direction: column;
+}
+
+/*=================================================END-Admin-AdminDashboard==================================================*/
+/*=================================================DatKham-LichKham==================================================*/
+
+.appointment-history-container {
+    max-height: 400px;
+    overflow-y: scroll;
+}
+
+.appointment-history-item {
+    margin: 10px;
+    padding: 10px;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+}
+
+    .appointment-history-item:hover {
+        border: 2px solid #1975DC;
+    }
+
+    .appointment-history-item a {
+        width: 100%;
+        text-decoration: none;
+        color: #000;
+    }
+
+    .appointment-history-item span:first-child {
+        display: flex;
+        font-weight: 500;
+    }
+
+    .appointment-history-item span:last-child {
+        font-size: 12px;
+    }
+
+.history-item-infor {
+    display: flex;
+    flex-direction: column;
+}
+
+.appointment-info-container {
+    padding: 10px;
+    border: 2px solid #1975DC;
+    border-radius: 5px;
+    background: #1975DC;
+    color: #fff;
+}
+
+.appointment-info-item {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+    .appointment-info-item textarea {
+        padding: 10px;
+        height: 150px;
+        min-height: 150px;
+        max-height: 150px;
+        border-radius: 3px;
+    }
+
+        .appointment-info-item textarea:focus {
+            outline: none;
+        }
+
+    .appointment-info-item span {
+        font-weight: 500;
+    }
+
+    .appointment-info-item label {
+        font-size: 18px;
+        font-weight: 500;
+    }
+
+.appointment-history-item-chosen {
+    background: #1975DC;
+}
+
+    .appointment-history-item-chosen a {
+        color: #fff !important;
+    }
+
+/*=================================================END-DatKham-LichKham==================================================*/

@@ -1,0 +1,98 @@
+﻿@page
+@model YourCare_Application.Pages.Admin.Appointment.AppointmentDetailModel
+@{
+}
+<div class="d-flex justify-content-between">
+    <div class="col-md-7">
+        <div class="appointment-patient-profile">
+            <h2 class="m-0">Hồ sơ bệnh nhân</h2>
+            <hr />
+            <div class="patient-profile-item">
+                <span>Họ và tên: </span>
+                <span>@(!string.IsNullOrEmpty(Model.PatientProfile.Name) ? Model.PatientProfile.Name : "--")</span>
+            </div>
+            <div class="patient-profile-item">
+                <span>Giới tính: </span>
+                <span>@(Model.PatientProfile.Gender == true ? "Nam" : "Nữ")</span>
+            </div>
+            <div class="patient-profile-item">
+                <span>Ngày sinh: </span>
+                <span>@(Model.PatientProfile.Dob != null ? Model.PatientProfile.Dob.Value.ToString("dd/MM/yyyy") : "--")</span>
+            </div>
+            <div class="patient-profile-item">
+                <span>Địa chỉ: </span>
+                <span>@(Model.PatientProfile.Address != null ? Model.PatientProfile.Address : "--")</span>
+            </div>
+            <div class="patient-profile-item">
+                <span>Nghề nghiệp: </span>
+                <span>@(!string.IsNullOrEmpty(Model.PatientProfile.Career) ? Model.PatientProfile.Career : "--")</span>
+            </div>
+            <div class="patient-profile-item">
+                <span>Dân tộc: </span>
+                <span>@(!string.IsNullOrEmpty(Model.PatientProfile.Ethnic) ? Model.PatientProfile.Ethnic : "--")</span>
+            </div>
+            <div class="patient-profile-item">
+                <span>Số điện thoại: </span>
+                <span>@(!string.IsNullOrEmpty(Model.PatientProfile.PhoneNumber) ? Model.PatientProfile.PhoneNumber : "--")</span>
+            </div>
+            <div class="patient-profile-item">
+                <span>Email: </span>
+                <span>@(!string.IsNullOrEmpty(Model.PatientProfile.Email) ? Model.PatientProfile.Email : "--")</span>
+            </div>
+            <div class="d-flex flex-column">
+                <span style="font-size: 20px">Ghi chú của bệnh nhân: </span>
+                <textarea style="height: 130px; max-height: 200px; min-height: 100px;" class="p-3">@(!string.IsNullOrEmpty(Model.Appointment.PatientNote) ? Model.Appointment.PatientNote : "--")</textarea>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-5">
+        <form id="submit-form" method="POST">
+            <input type="hidden" asp-for="@Model.Appointment.Id" />
+            <div class="appointment-doctor-dianosis">
+                <div class="d-flex justify-content-end">
+                    <div class="me-3">
+                        <span>Bác sĩ: <h6>@Model.Appointment.Doctor.Name</h6></span>
+                    </div>
+                    <div style="width: 80px; height: 80px;" class="doctor-img">
+                        <img src="@Model.Appointment.Doctor.AvatarString" alt="doctoImg" />
+                    </div>
+                </div>
+                <h4 class="m-0 mt-2 p-2 badge bg-warning fs-5">@Model.Appointment.Status</h4>
+                <hr />
+                <h4 class="m-0">Ngày khám: @Model.Appointment.TimeTable.Date.ToString("d")</h4>
+                <hr />
+                <h4 class="m-0">Giờ: @Model.Appointment.TimeTable.StartTime - @Model.Appointment.TimeTable.EndTime</h4>
+                <hr />
+                <h2 class="m-0">Chuẩn đoán của Bác sĩ</h2>
+                <div class="doctor-dianosis-item">
+                    <label for="disease">Chuẩn đoán bệnh: </label>
+                    <textarea readonly asp-for="@Model.Appointment.DoctorDianosis" placeholder="Triệu chứng, bệnh liên quan,...">@Model.Appointment.DoctorDianosis</textarea>
+                </div>
+                <div class="doctor-dianosis-item">
+                    <label for="disease">Ghi chú của bác sĩ: </label>
+                    <textarea readonly asp-for="@Model.Appointment.DoctorNote" placeholder="Lời khuyên, cách điều trị,...">@Model.Appointment.DoctorNote</textarea>
+                </div>
+            </div>
+            <div class="appointment-doctor-dianosis">
+                <h2 class="m-0">Thông tin lịch khám</h2>
+                <hr />
+                <div class="doctor-dianosis-item">
+                    <label>Chi phí buổi khám: </label>
+                    <h3 id="select-price">@Model.Appointment.TotalPrice</h3>
+                </div>
+                <div class="doctor-dianosis-item">
+                </div>
+            </div>
+            <div class="appointment-doctor-dianosis">
+                <div class="doctor-dianosis-item">
+                    <label for="disease">Phản hồi từ bệnh nhân: </label>
+                    <textarea readonly asp-for="@Model.Appointment.PatientFeedBack" placeholder="">@Model.Appointment.PatientFeedBack</textarea>
+                </div>
+                <div class="doctor-dianosis-item">
+                    <span>Đã đánh giá: <span style="font-size: 30px;">@Model.Appointment.PatientRating<span class="text-warning">★</span></span></span>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+

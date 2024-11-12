@@ -1,0 +1,92 @@
+﻿@page
+@model             DeleteModel
+@{
+}
+
+<h1>Delete</h1>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Doctor</h4>
+    <hr />
+    <dl class="row d-flex justify-content-between">
+        <div class="col-sm-5">
+            <dd class="col-sm-10">
+                <img src="@ViewBag.AvatarString" style="padding:2px; width: 200px; height: 200px; border: 1px solid #ddd;" />
+            </dd>
+            <div class="d-flex justify-content-between">
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Doctor.DoctorTitle)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.Doctor.DoctorTitle)
+                </dd>
+            </div>
+            <div class="d-flex justify-content-between">
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Doctor.Experience)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.Doctor.Experience)
+                </dd>
+            </div>
+            <div class="d-flex justify-content-between">
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Doctor.DoctorDescription)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.Doctor.DoctorDescription)
+                </dd>
+            </div>
+            
+        </div>
+        <div class="col-sm-7">
+            <div class="d-flex justify-content-between">
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Doctor.Name)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.Doctor.Name)
+                </dd>
+            </div>
+            <div class="d-flex justify-content-between">
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Doctor.Email)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.Doctor.Email)
+                </dd>
+            </div>
+            <div class="d-flex justify-content-between">
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Doctor.PhoneNumber)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.Doctor.PhoneNumber)
+                </dd>
+            </div>
+            <div class="d-flex justify-content-between">
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Doctor.Gender)
+                </dt>
+                <dd class="col-sm-8">
+                    @(Model.Doctor.Gender == true ? "Male" : "Female")
+                </dd>
+            </div>
+            <div class="d-flex justify-content-between">
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Doctor.Dob)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.Doctor.Dob)
+                </dd>
+            </div>
+        </div>
+    </dl>
+
+    <form method="post">
+        <input type="hidden" asp-for="Doctor.Id" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a class="btn btn-primary" asp-page="./Index">Back to List</a>
+    </form>
+</div>

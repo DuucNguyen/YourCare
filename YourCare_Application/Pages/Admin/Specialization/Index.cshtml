@@ -1,0 +1,59 @@
+﻿@page
+@using ReflectionIT.Mvc.Paging
+@using YourCare_Application.Pages.Admin.Specialization
+@model             IndexModel
+@addTagHelper *, ReflectionIT.Mvc.Paging
+
+@{
+    ViewData["Title"] = "Specializations";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="mb-3">
+    <a style="width: 130px;" class="btn btn-success d-flex align-items-center" asp-page="Create">
+        Create New
+        <i class='bx bx-list-plus'></i>
+    </a>
+</div>
+
+<div class="d-flex justify-content-end">
+    <nav aria-label="Spe navigation example">
+        <vc:pager paging-list="@Model.Specializations" />
+    </nav>
+</div>
+
+<table class="table table-responsive">
+    <thead>
+        <tr>
+            <th>
+                Image
+            </th>
+            <th>
+                Name
+            </th>
+
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in ViewBag.specialization)
+        {
+            <tr>
+                <td>
+                    <div style="width: 150px; height:150px; border: 1px solid #ddd;">
+                        <img src="@item.ImageString" alt="Image" />
+                    </div>
+                </td>
+                <td>
+                    @item.Name
+                </td>
+                <td>
+                    <a class="btn btn-primary" asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a class="btn btn-danger" asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

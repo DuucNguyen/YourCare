@@ -1,0 +1,71 @@
+﻿@page
+@model ThongTinLichKhamModel
+@{
+    int i = 1;
+}
+<div class="text-center">
+    <h1 class="display-6 fw-bold">Thông tin lịch khám</h1>
+    <h2>Ngày :<span class="text-primary"> @(!string.IsNullOrEmpty(ViewBag.chosenDate) ? DateTime.Parse(ViewBag.chosenDate.ToString()).ToString("dd/MM/yyyy") : DateTime.Now.Date.ToString("dd/MM/yyyy"))</span></h2>
+    <h4>Số lượng lịch đặt khám trong ngày: <span class="text-primary">@Model.Appointments.Count</span></h4>
+    <form method="GET">
+        <input type="hidden" name="doctorId" value="@ViewBag.doctorId" />
+        <div class="w-100 d-flex align-items-center justify-content-center">
+            <div class="w-50 d-flex align-items-center">
+                <label class="form-label fs-5 w-50 m-0">Tìm kiếm theo ngày: </label>
+                <input class="form-control" onchange="this.form.submit()" type="date" name="txtDate" value="@(!string.IsNullOrEmpty(ViewBag.chosenDate)?ViewBag.chosenDate:"")" />
+            </div>
+        </div>
+    </form>
+</div>
+<div class="appointment-container">
+    @if (Model.Appointments.Count > 0)
+    {
+        <div class="mt-5 mb-5">
+            <span class="fs-4">Tìm thấy: <span class="fw-bold text-primary">@Model.Appointments.Count</span> kết quả.</span>
+            <hr />
+        </div>
+        @foreach (var a in Model.Appointments)
+        {
+            <div class="appointment-item @(a.Status==Constants.StatusConstant.Status.Đã_hoàn_thành?"appointment-item-completed":"")">
+                <div style="max-width: 50px;" class="d-flex align-items-center me-2">
+                    <span class="fw-bold fs-4 text-primary">#@i</span>
+                </div>
+                <div class="appointment-item-timeSlot">
+                    <span>@a.TimeTable.StartTime.ToString(@"hh\:mm") - @a.TimeTable.EndTime.ToString(@"hh\:mm")</span>
+                </div>
+                <div class="appointment-item-info">
+                    <div class="d-flex">
+                        <span class="me-5">Bệnh nhân: </span>
+                        <h5>@a.PatientProfile.Name</h5>
+                    </div>
+                    <div class="d-flex">
+                        <span class="me-5">Ngày sinh:</span>
+                        <h5>@(a.PatientProfile.Dob != null ? a.PatientProfile.Dob.Value.ToString("dd/MM/yyyy") : "--")</h5>
+                    </div>
+                </div>
+                <div class="appointment-item-info">
+                    <div class="d-flex">
+                        <span class="me-5">Giới tính: </span>
+                        <h5>@(a.PatientProfile.Gender == true ? "Nam" : "Nữ")</h5>
+                    </div>
+                    <div class="d-flex">
+                        <span class="me-5">Trạng thái: </span>
+                        <h5 class="badge text-dark bg-warning">@a.Status</h5>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-end align-items-center">
+                    <a asp-page="/TrangChuBacSi/HoSoLichKham" asp-route-appointmentId="@a.Id" class="button-hover"> @(a.Status == Constants.StatusConstant.Status.Đã_hoàn_thành ? "Đã hoàn thành" : "Xem chi tiết ") <i class='bx bx-right-arrow-alt'></i></a>
+                </div>
+            </div>
+            i++;
+        }
+
+    }
+    else
+    {
+        <div class="mt-5 d-flex justify-content-center align-items-center">
+            <h4 class="text-secondary d-flex align-content-center align-items-center">Không tìm thấy kết quả   <span><i class='bx bx-info-circle'></i></span></h4>
+        </div>
+    }
+</div>

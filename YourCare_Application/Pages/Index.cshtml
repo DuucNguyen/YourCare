@@ -1,0 +1,71 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="text-center">
+    <h1 class="display-6 fw-bold">Đặt lịch khám trực tuyến</h1>
+    <p>Tìm Bác sĩ chính xác - Đặt lịch khám dễ dàng</p>
+</div>
+
+<div class="mb-5 row doctor-section">
+    <div class="mb-3 d-flex justify-content-between">
+        <div>
+            <h2 class="mb-0 fs-4 fw-bold">Đặt khám bác sĩ</h2>
+            <p class="mb-0">Phiếu khám kèm số thứ tự và thời gian của bạn được xác nhận.</p>
+        </div>
+        <div class="d-flex align-items-center">
+            <a asp-page="/DatKham/BacSi/Index" class="button-hover">Xem thêm <i class='bx bx-right-arrow-alt'></i></a>
+        </div>
+    </div>
+    <div class="doctor-items">
+        @foreach (var doc in Model.Doctors)
+        {
+            <div class="doctor-item">
+                <div class="doctor-item-info">
+                    <div class="doctor-img">
+                        <img src="@doc.AvatarString" />
+                    </div>
+                    <a class="doctor-title">
+                        <span>@doc.DoctorTitle</span>
+                        <span>@doc.Name</span>
+                    </a>
+                    <div class="doctor-spes">
+                        @foreach (var spe in doc.Specializations)
+                        {
+                            <label class="specialization-item-capsule">@spe.Name</label>
+                            <br />
+                            break;
+                        }
+                    </div>
+                    <p class="mb-0">@doc.Address</p>
+                </div>
+                <a asp-page="/DatKham/BacSi/ThongTinBacSi" asp-route-doctorID="@doc.Id" class="appointment-link">Đặt lịch khám <i class='fs-4 bx bx-chevron-right'></i></a>
+            </div>
+        }
+    </div>
+</div>
+<div class="row specialization-section">
+    <div class="mb-3">
+        <h2 class="mb-0 fs-4 fw-bold">Đặt lịch theo Chuyên khoa</h2>
+        <p class="mb-0">Danh sách bác sĩ theo chuyên khoa</p>
+    </div>
+    <div class="specialization-items">
+        @foreach (var spe in Model.Specializations)
+        {
+            <a class="text-decoration-none" asp-page="/DatKham/BacSi/Index" asp-route-specialization="@spe.Id">
+                <div class="specialization-item">
+                    <div class="specialization-img">
+                        <img src="@spe.ImageString" alt="spe" />
+                    </div>
+                    <p>@spe.Name</p>
+                </div>
+            </a>
+        }
+    </div>
+</div>
+
+<script>
+
+</script>

@@ -1,0 +1,48 @@
+﻿@page
+@model             EditModel
+
+@{
+    ViewData["Title"] = "Update";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<h4>Specialization</h4>
+<hr />
+<div class="row">
+    <div class="col-md-5">
+        <form method="post" enctype="multipart/form-data">
+            <input type="hidden" asp-for="Input.Id" />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="mb-3 form-group d-flex justify-content-between ">
+                <div style="width: 150px; height: 150px; border: 1px solid #ddd; padding: 2px; border-radius: 10px;">
+                    <img id="previewImage" style="width: 100%" src="@Model.Input.ImageString" alt="image" />
+                </div>
+                <div>
+                    <label asp-for="Input.ImageFile" class="control-label"></label>
+                    <input id="fileInput" type="file" asp-for="Input.ImageFile" class="form-control" />
+                    <span asp-validation-for="Input.ImageFile" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="mb-3 form-group">
+                <label asp-for="Input.Name" class="control-label"></label>
+                <input asp-for="Input.Name" class="form-control" />
+                <span asp-validation-for="Input.Name" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3 form-group d-flex">
+                <input type="submit" value="Update" class="me-3 btn btn-success" />
+                <a class="btn btn-primary" asp-page="Index">Back to List</a>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-5">
+        <partial name="_StatusMessage" model="@Model.StatusMessage" />
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

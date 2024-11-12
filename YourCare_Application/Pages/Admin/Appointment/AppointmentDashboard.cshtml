@@ -1,0 +1,118 @@
+﻿@page
+@model YourCare_Application.Pages.Admin.AppointmentDashboardModel
+@{
+
+    int i = 1;
+}
+<div class="d-flex flex-column align-items-center justify-content-center">
+    <h1>Danh sách lịch khám</h1>
+</div>
+
+<div>
+    <div class="d-flex align-items-center">
+        <form method="GET">
+            <label class="me-3 form-label" for="date">Tìm kiếm theo ngày: </label>
+            <input onchange="this.form.submit()" class="form-control" type="date" name="txtDate" />
+        </form>
+    </div>
+    <div class="appointment-container">
+        @if (Model.Appointments.Count > 0)
+        {
+            @foreach (var a in Model.Appointments)
+            {
+                <div class="appointment-item @(a.Status==Constants.StatusConstant.Status.Đã_hoàn_thành?"appointment-item-completed":"")">
+                    <div style="max-width: 50px;" class="d-flex align-items-center me-2">
+                        <span class="fw-bold fs-4 text-primary">#@i</span>
+                    </div>
+                    <div class="appointment-item-timeSlot">
+                        <span>@a.TimeTable.StartTime.ToString(@"hh\:mm") - @a.TimeTable.EndTime.ToString(@"hh\:mm")</span>
+                    </div>
+                    <div class="appointment-item-info">
+                        <div class="d-flex">
+                            <span class="me-5">Hồ sơ: </span>
+                            <h5>@a.PatientProfile.Name</h5>
+                        </div>
+                        <div class="d-flex">
+                            <span class="me-5">Tạo bởi: </span>
+                            <h5>@a.CreatedBy</h5>
+                        </div>
+                    </div>
+                    <div class="appointment-item-info">
+                        <div class="d-flex">
+                            <span class="me-5">Bác sĩ: </span>
+                            <h5>@(!string.IsNullOrEmpty(a.Doctor.Name) ? a.Doctor.Name : "--")</h5>
+                        </div>
+                        <div class="d-flex">
+                            <span class="me-5">Trạng thái: </span>
+                            <h5 class="badge text-dark bg-warning">@a.Status</h5>
+                        </div>
+                    </div>
+                    <div class="d-flex flex-column">
+                        <div class="appointment-item-info">
+                            @if (a.Status == Constants.StatusConstant.Status.Đang_Chờ)
+                            {
+                                <button class="btn-confirm btn btn-danger" type="submit"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#confirmationModalCancel"
+                                        data-id="@a.Id">
+                                    Hủy lịch khám
+                                </button>
+                            }
+                        </div>
+                        <div class="mt-1 appointment-item-info">
+
+                            <form method="GET" asp-page="/Admin/Appointment/AppointmentDetail">
+                                <input type="hidden" value="@a.Id" name="appointmentId" />
+                                <button class="button-hover" type="submit">
+                                    Xem chi tiết
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                i++;
+            }
+        }
+        else
+        {
+            <div class="mt-5 d-flex justify-content-center align-items-center">
+                <h4 class="text-secondary d-flex align-content-center align-items-center">Không tìm thấy kết quả   <span><i class='bx bx-info-circle'></i></span></h4>
+            </div>
+        }
+    </div>
+</div>
+<div class="modal fade" id="confirmationModalCancel" tabindex="-1" aria-labelledby="confirmationModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmationModalTitle">Xác nhận</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="d-flex flex-column">
+                    <h4>Cập nhật trạng thái lịch khám: </h4>
+                    <h4 class="text-danger">Hủy lịch khám ? </h4>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+                <form method="POST" asp-page-handler="Cancel">
+                    <input id="confirm-id" type="hidden" name="txtAId" />
+                    <button type="submit" class="btn btn-danger">Hủy lịch khám</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+        $(".btn-confirm").click(function () {
+            var id = $(this).data("id");  // Get the ID from the data-id attribute
+            $("#confirm-id").val(id);      // Set the value of the hidden input
+            console.log($("#confirm-id").val());
+        });
+    });
+
+</script>
